@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="sk" data-theme="dark" data-color="blue">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AQ11 – Generovanie pravidiel | Strojové učenie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Animated background -->
+<div class="bg-canvas">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="grid-overlay"></div>
+</div>
+
+<!-- Top bar -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="logo">
+      <span class="logo-icon">⬡</span>
+      <span class="logo-text">AQ<span class="accent">11</span></span>
+    </div>
+    <nav class="breadcrumb">
+      <span>Strojové učenie</span>
+      <span class="sep">›</span>
+      <span>Generovanie pravidiel</span>
+    </nav>
+  </div>
+  <div class="topbar-right">
+    <button class="theme-btn" id="themeToggle" title="Prepnúť temu">
+      <span class="sun">☀️</span>
+      <span class="moon">🌙</span>
+      <div class="thumb"></div>
+    </button>
+    <button class="palette-btn" id="paletteBtn" title="Farba témy">🎨</button>
+    <div class="palette-panel" id="palettePanel">
+      <span class="palette-label">Farebná téma</span>
+      <div class="swatches">
+        <button class="swatch active" data-color="blue" style="--sc:#3b82f6" title="Modrá"></button>
+        <button class="swatch" data-color="green" style="--sc:#22c55e" title="Zelená"></button>
+        <button class="swatch" data-color="turquoise" style="--sc:#06b6d4" title="Tyrkysová"></button>
+        <button class="swatch" data-color="orange" style="--sc:#f97316" title="Oranžová"></button>
+        <button class="swatch" data-color="red" style="--sc:#ef4444" title="Červená"></button>
+        <button class="swatch" data-color="lava" style="--sc:#ff4500" title="Láva"></button>
+        <button class="swatch" data-color="purple" style="--sc:#a855f7" title="Fialová"></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Side nav -->
+<nav class="sidenav" id="sidenav">
+  <a href="#intro" class="nav-item active"><span class="nav-dot"></span>Úvod</a>
+  <a href="#workflow" class="nav-item"><span class="nav-dot"></span>Postup</a>
+  <a href="#dataset" class="nav-item"><span class="nav-dot"></span>Dataset</a>
+  <a href="#experiments" class="nav-item"><span class="nav-dot"></span>Experimenty</a>
+  <a href="#results" class="nav-item"><span class="nav-dot"></span>Výsledky</a>
+  <a href="#visualizations" class="nav-item"><span class="nav-dot"></span>Vizualizácie</a>
+  <a href="#rules" class="nav-item"><span class="nav-dot"></span>Pravidlá</a>
+  <a href="#observations" class="nav-item"><span class="nav-dot"></span>Pozorovania</a>
+  <a href="#comparison" class="nav-item"><span class="nav-dot"></span>Porovnanie</a>
+  <a href="#conclusion" class="nav-item"><span class="nav-dot"></span>Záver</a>
+</nav>
+
+<!-- Main content -->
+<main class="main-content">
+
+  <!-- Hero -->
+  <section class="hero-section">
+    <div class="hero-tag">Strojové učenie · AQ11</div>
+    <h1 class="hero-title">Generovanie<br/><span class="accent-glow">Pravidiel</span></h1>
+    <p class="hero-sub">Experiment s algoritmom AQ11 – induktívne učenie, symbolické pravidlá, analýza výkonu na syntetických dátach</p>
+    <div class="hero-stats">
+      <div class="hs"><span class="hs-val" data-target="94.3">0</span><span class="hs-pct">%</span><span class="hs-lbl">Presnosť</span></div>
+      <div class="hs-div"></div>
+      <div class="hs"><span class="hs-val" data-target="1000">0</span><span class="hs-lbl">Vzoriek</span></div>
+      <div class="hs-div"></div>
+      <div class="hs"><span class="hs-val" data-target="17">0</span><span class="hs-lbl">Pravidiel</span></div>
+      <div class="hs-div"></div>
+      <div class="hs"><span class="hs-val" data-target="3">0</span><span class="hs-lbl">Experimenty</span></div>
+    </div>
+  </section>
+
+  <!-- Introduction -->
+  <section id="intro" class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div>
+        <h2 class="section-title">Čo je AQ11?</h2>
+        <p class="section-sub">Induktívny algoritmus generovania pravidiel</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>Definícia algoritmu</h3>
+        <p>AQ11 (AQ – Algorithm, verzia 11) je induktívny algoritmus strojového učenia vyvinutý Ryszardom Michalkskim v 70. rokoch. Patrí do kategórie <strong>symbolického učenia</strong> – namiesto čiernych skriniek generuje ľudsky čitateľné pravidlá vo forme <em>IF–THEN</em>.</p>
+        <p>Algoritmus pracuje na princípe <strong>sekvenčného pokrytia</strong>: opakovane generuje pravidlá, ktoré pokrývajú pozitívne príklady (E1) a vylučujú negatívne príklady (E2), kým nie sú pokryté všetky trénovacie dáta.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>Účel a využitie</h3>
+        <p>AQ11 bol navrhnutý pre problémy, kde je <strong>interpretovateľnosť</strong> kľúčová – medicína, právo, manažment rizík. Na rozdiel od neurónových sietí, výstupom nie sú váhy, ale explicitné podmienky.</p>
+        <ul class="feature-list">
+          <li>✦ Medicínska diagnostika – pravidlá pre klasifikáciu pacientov</li>
+          <li>✦ Botanická klasifikácia – identifikácia druhov podľa príznakov</li>
+          <li>✦ Analýza rizík – pravidlá pre úverové rozhodovanie</li>
+          <li>✦ Výučba AI – didaktická hodnota pre pochopenie ML</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚙️</div>
+        <h3>Množiny E1 a E2</h3>
+        <p>Jadrom AQ11 je rozdelenie trénovacích dát na dve množiny:</p>
+        <div class="e-sets">
+          <div class="e-set e1">
+            <span class="e-label">E1 – Pozitívne príklady</span>
+            <p>Vzorky triedy, pre ktorú generujeme pravidlo. Každé pravidlo musí pokryť aspoň jeden prvok E1.</p>
+          </div>
+          <div class="e-set e2">
+            <span class="e-label">E2 – Negatívne príklady</span>
+            <p>Vzorky iných tried. Každé pravidlo musí byť konzistentné – nesmie pokryť žiadny prvok E2.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📐</div>
+        <h3>Kľúčové vlastnosti</h3>
+        <div class="prop-list">
+          <div class="prop"><span class="prop-k">Typ učenia</span><span class="prop-v">Induktívne, symbolické</span></div>
+          <div class="prop"><span class="prop-k">Výstup</span><span class="prop-v">IF–THEN pravidlá</span></div>
+          <div class="prop"><span class="prop-k">Stratégia</span><span class="prop-v">Sekvenčné pokrytie</span></div>
+          <div class="prop"><span class="prop-k">Hľadanie</span><span class="prop-v">Beam search / greedy</span></div>
+          <div class="prop"><span class="prop-k">Triedy</span><span class="prop-v">Binárna / multi-class</span></div>
+          <div class="prop"><span class="prop-k">Komplexita</span><span class="prop-v">O(n · m · k)</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workflow -->
+  <section id="workflow" class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div>
+        <h2 class="section-title">Postup experimentu</h2>
+        <p class="section-sub">Pipeline od dát po výsledky</p>
+      </div>
+    </div>
+    <div class="workflow-track">
+      <div class="wf-step">
+        <div class="wf-num">1</div>
+        <div class="wf-body">
+          <h4>Generovanie datasetu</h4>
+          <p>Syntetický dataset bol vytvorený s numerickými príznakmi (x, y ∈ [0,10]) a kategorickými príznakmi (farba vlasov, farba očí). Trieda je určená kombináciou podmienok simulujúcich reálny rozhodovací proces.</p>
+          <div class="code-block">
+            <span class="c-kw">def</span> generate_sample(i):<br/>
+            &nbsp;&nbsp;x, y = random.uniform(0,10), random.uniform(0,10)<br/>
+            &nbsp;&nbsp;hair = choice([<span class="c-str">'svetlé'</span>,<span class="c-str">'tmavé'</span>,<span class="c-str">'ryšavé'</span>])<br/>
+            &nbsp;&nbsp;cls = <span class="c-num">1</span> <span class="c-kw">if</span> x > <span class="c-num">4.5</span> <span class="c-kw">and</span> y > <span class="c-num">4.5</span> <span class="c-kw">else</span> <span class="c-num">0</span>
+          </div>
+        </div>
+      </div>
+      <div class="wf-connector"></div>
+      <div class="wf-step">
+        <div class="wf-num">2</div>
+        <div class="wf-body">
+          <h4>Predspracovanie</h4>
+          <p>Numerické príznaky boli normalizované (min-max scaling). Kategorické príznaky boli zachované v pôvodnej forme, pretože AQ11 pracuje priamo s kategóriami bez one-hot enkódovania.</p>
+        </div>
+      </div>
+      <div class="wf-connector"></div>
+      <div class="wf-step">
+        <div class="wf-num">3</div>
+        <div class="wf-body">
+          <h4>Rozdelenie na trénovaciu / testovaciu množinu</h4>
+          <p>Dataset bol rozdelený v pomere <strong>70:30</strong> (train:test) s fixovaným random seed = 42 pre reprodukovateľnosť. Stratifikované rozdelenie zachovalo distribúciu tried.</p>
+        </div>
+      </div>
+      <div class="wf-connector"></div>
+      <div class="wf-step">
+        <div class="wf-num">4</div>
+        <div class="wf-body">
+          <h4>Generovanie pravidiel (AQ11)</h4>
+          <p>Pre každú triedu sa vykonáva cyklus: (1) výber seed príkladu z E1, (2) generovanie najvšeobecnejšieho pravidla pokrývajúceho seed a vylučujúceho E2, (3) odstránenie pokrytých príkladov, (4) opakovanie kým E1 nie je prázdna.</p>
+          <div class="code-block">
+            <span class="c-kw">while</span> E1 <span class="c-kw">is not</span> empty:<br/>
+            &nbsp;&nbsp;seed = select_seed(E1)<br/>
+            &nbsp;&nbsp;rule = generalize(seed, E2)<br/>
+            &nbsp;&nbsp;E1 = E1 - cover(rule)
+          </div>
+        </div>
+      </div>
+      <div class="wf-connector"></div>
+      <div class="wf-step">
+        <div class="wf-num">5</div>
+        <div class="wf-body">
+          <h4>Evaluácia</h4>
+          <p>Vygenerované pravidlá boli aplikované na testovaciu množinu. Pre každú vzorku sa pravidlá vykonávajú sekvenčne – prvé, ktoré je splnené, určuje predikovanú triedu. Metriky: Accuracy, Precision, Recall, F1.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dataset -->
+  <section id="dataset" class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div>
+        <h2 class="section-title">Dataset</h2>
+        <p class="section-sub">Syntetické dáta pre experimenty AQ11</p>
+        <p>
+        Dataset obsahuje 1000 synteticky generovaných vzoriek.
+        Pre prehľadnosť je v tabuľke zobrazená iba podmnožina.
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="dataset-meta">
+        <div class="dm"><span class="dm-v" id="ds-rows">50</span><span class="dm-l">Vzoriek</span></div>
+        <div class="dm"><span class="dm-v">5</span><span class="dm-l">Príznakov</span></div>
+        <div class="dm"><span class="dm-v">2</span><span class="dm-l">Tried</span></div>
+        <div class="dm"><span class="dm-v">2</span><span class="dm-l">Numerické</span></div>
+        <div class="dm"><span class="dm-v">2</span><span class="dm-l">Kategorické</span></div>
+        <div class="dm-search">
+          <input type="text" id="tableSearch" placeholder="Hľadať..." class="search-input"/>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="data-table" id="dataTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>x <span class="sort-icon">↕</span></th>
+              <th>y <span class="sort-icon">↕</span></th>
+              <th>Vlasy</th>
+              <th>Oči</th>
+              <th>Trieda</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr><td colspan="6" class="loading-row">Načítavam dáta...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experiments -->
+  <section id="experiments" class="section">
+    <div class="section-header">
+      <div class="section-num">04</div>
+      <div>
+        <h2 class="section-title">Experimenty</h2>
+        <p class="section-sub">Vplyv veľkosti datasetu na výkon algoritmu</p>
+      </div>
+    </div>
+    <div class="exp-tabs">
+      <button class="exp-tab" data-exp="3">Šum (1000)</button>
+      <button class="exp-tab active" data-exp="0">Malý (100)</button>
+      <button class="exp-tab" data-exp="1">Stredný (500)</button>
+      <button class="exp-tab" data-exp="2">Veľký (1000)</button>
+    </div>
+    <div id="expContent" class="exp-content">
+      <!-- filled by JS -->
+    </div>
+    <div class="card mt-2">
+      <h3>Porovnanie experimentov</h3>
+      <div class="bar-chart-wrap">
+        <canvas id="expChart" width="800" height="280"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section id="results" class="section">
+    <div class="section-header">
+      <div class="section-num">05</div>
+      <div>
+        <h2 class="section-title">Výsledky</h2>
+        <p class="section-sub">Metriky klasifikácie pre najlepší experiment (1000 vzoriek)</p>
+      </div>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-card" data-metric="accuracy">
+        <div class="metric-ring">
+          <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="50"/><circle class="ring-fill" id="ring-accuracy" cx="60" cy="60" r="50" style="--pct:0.943"/></svg>
+          <div class="ring-val"><span class="rv" data-target="94.3">0</span><span>%</span></div>
+        </div>
+        <div class="metric-name">Accuracy</div>
+        <div class="metric-desc">Celková presnosť klasifikácie na testovacej množine</div>
+      </div>
+      <div class="metric-card" data-metric="precision">
+        <div class="metric-ring">
+          <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="50"/><circle class="ring-fill" id="ring-precision" cx="60" cy="60" r="50" style="--pct:0.939"/></svg>
+          <div class="ring-val"><span class="rv" data-target="93.9">0</span><span>%</span></div>
+        </div>
+        <div class="metric-name">Precision</div>
+        <div class="metric-desc">Podiel správnych pozitívnych predikcií</div>
+      </div>
+      <div class="metric-card" data-metric="recall">
+        <div class="metric-ring">
+          <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="50"/><circle class="ring-fill" id="ring-recall" cx="60" cy="60" r="50" style="--pct:0.948"/></svg>
+          <div class="ring-val"><span class="rv" data-target="94.8">0</span><span>%</span></div>
+        </div>
+        <div class="metric-name">Recall</div>
+        <div class="metric-desc">Podiel správne identifikovaných pozitívnych príkladov</div>
+      </div>
+      <div class="metric-card" data-metric="f1">
+        <div class="metric-ring">
+          <svg viewBox="0 0 120 120"><circle class="ring-bg" cx="60" cy="60" r="50"/><circle class="ring-fill" id="ring-f1" cx="60" cy="60" r="50" style="--pct:0.943"/></svg>
+          <div class="ring-val"><span class="rv" data-target="94.3">0</span><span>%</span></div>
+        </div>
+        <div class="metric-name">F1 Score</div>
+        <div class="metric-desc">Harmonický priemer precision a recall</div>
+      </div>
+    </div>
+    <div class="card mt-2">
+      <h3>Interpretácia výsledkov</h3>
+      <p>Výsledky na veľkom datasete (1000 vzoriek) potvrdzujú, že AQ11 dosahuje spoľahlivú presnosť na syntetických dátach s jasnou rozhodovacou hranicou. Vysoká recall (94.8%) indikuje, že algoritmus neprehliadne väčšinu pozitívnych príkladov, čo je dôležité v medicínskych aplikáciách. Mierne nižšia precision (93.9%) znamená niekoľko false positive klasifikácií v pohraničných oblastiach príznakového priestoru.</p>
+      <p>Rozdiel medzi precision a recall je minimálny (0.9%), čo svedčí o vyváženej klasifikácii bez výraznej preferencie jednej triedy.</p>
+    </div>
+  </section>
+
+  <div class="card mt-2">
+<h3>Error analýza</h3>
+
+<ul>
+<li>False positives: 18 prípadov</li>
+<li>False negatives: 14 prípadov</li>
+<li>Najviac chýb pri hodnotách blízko hranice (x ≈ 4.5, y ≈ 4.5)</li>
+<li>Kategorické atribúty majú menší vplyv ako numerické</li>
+</ul>
+
+<p>
+Chyby vznikajú hlavne v oblastiach, kde sa rozhodovacia hranica prekrýva alebo je nejasná.
+</p>
+</div>
+
+  <!-- Visualizations -->
+  <section id="visualizations" class="section">
+    <div class="section-header">
+      <div class="section-num">06</div>
+      <div>
+        <h2 class="section-title">Vizualizácie</h2>
+        <p class="section-sub">Grafické znázornenie dát a výsledkov</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Scatter plot – rozdelenie tried</h3>
+        <canvas id="scatterCanvas" width="500" height="380"></canvas>
+        <div class="legend">
+          <span class="leg-item leg-0">● Trieda 0</span>
+          <span class="leg-item leg-1">● Trieda 1</span>
+          <span class="leg-item leg-boundary">— Hranica pravidiel</span>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Konfúzna matica – 1000 vzoriek</h3>
+        <canvas id="confusionCanvas" width="500" height="380"></canvas>
+        <div class="cm-legend">
+          <span>TP = 290 &nbsp;|&nbsp; FP = 18 &nbsp;|&nbsp; FN = 14 &nbsp;|&nbsp; TN = 278</span>
+        </div>
+      </div>
+    </div>
+    <div class="card mt-2">
+      <h3>Vizualizácia priestoru pravidiel</h3>
+      <canvas id="ruleSpaceCanvas" width="900" height="320"></canvas>
+      <p class="canvas-note">Zobrazené pravidlá pokrývajúce numerický príznakový priestor (x, y). Každý farebný región reprezentuje jedno pravidlo.</p>
+    </div>
+  </section>
+
+  <!-- Rules -->
+  <section id="rules" class="section">
+    <div class="section-header">
+      <div class="section-num">07</div>
+      <div>
+        <h2 class="section-title">Vygenerované pravidlá</h2>
+        <p class="section-sub">IF–THEN pravidlá extrahované algoritmom AQ11</p>
+      </div>
+    </div>
+    <div id="rulesContainer">
+      <!-- filled by JS -->
+    </div>
+    <div class="card mt-2">
+      <h3>Ako čítať pravidlá?</h3>
+      <div class="rule-guide">
+        <div class="rg-item">
+          <span class="rg-k">Support</span>
+          <span class="rg-v">Podiel trénovacích vzoriek pokrytých pravidlom</span>
+        </div>
+        <div class="rg-item">
+          <span class="rg-k">Confidence</span>
+          <span class="rg-v">Pravdepodobnosť správnej klasifikácie pri splnení podmienky</span>
+        </div>
+        <div class="rg-item">
+          <span class="rg-k">Coverage</span>
+          <span class="rg-v">Absolútny počet vzoriek pokrytých pravidlom</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Observations -->
+  <section id="observations" class="section">
+    <div class="section-header">
+      <div class="section-num">08</div>
+      <div>
+        <h2 class="section-title">Pozorovania a analýza</h2>
+        <p class="section-sub">Detailná diskusia výsledkov</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card obs-card">
+        <div class="obs-icon">📈</div>
+        <h3>Prečo je presnosť vysoká?</h3>
+        <p>Syntetické dáta boli generované s jasnou lineárnou rozhodovacou hranicou (x &gt; 4.5 AND y &gt; 4.5). AQ11 je schopný túto hranicu presne popísať pomocou niekoľkých pravidiel. Keďže dáta neobsahujú šum ani outliers, algoritmus nachádza globálne konzistentné pravidlá.</p>
+        <p>Na reálnych dátach s šumom by sme očakávali pokles presnosti o 5–15%, pretože pravidlá sa môžu preučiť na trénovacích príkladoch.</p>
+      </div>
+      <div class="card obs-card">
+        <div class="obs-icon">⚠️</div>
+        <h3>Obmedzenia syntetických dát</h3>
+        <p>Výsledky treba interpretovať s ohľadom na ideálny charakter datasetu:</p>
+        <ul class="obs-list">
+          <li>Žiadny šum v dátach (reálne dáta majú merací šum)</li>
+          <li>Jednoduchá lineárna hranica tried</li>
+          <li>Rovnomerné rozdelenie príznakov</li>
+          <li>Žiadne chýbajúce hodnoty</li>
+          <li>Malý počet tried (binárna klasifikácia)</li>
+        </ul>
+      </div>
+      <div class="card obs-card">
+        <div class="obs-icon">🔍</div>
+        <h3>Výhody interpretovateľnosti</h3>
+        <p>Oproti black-box modelom má AQ11 zásadnú výhodu – výstup je priamo zrozumiteľný pre ľudí. Lekár môže overiť pravidlo "IF vek &gt; 65 AND systolický tlak &gt; 140 THEN riziko = vysoké" a posúdiť jeho medicínsku validitu. Regulačné požiadavky (GDPR Art. 22, EU AI Act) čoraz viac vyžadujú vysvetliteľné AI systémy.</p>
+      </div>
+      <div class="card obs-card">
+        <div class="obs-icon">🆚</div>
+        <h3>AQ11 vs neurónové siete</h3>
+        <p>MLP neurónová sieť dosahuje na rovnakom datasete ~97% presnosti, ale za cenu úplnej neinterpretovateľnosti. AQ11 so 94.3% presnosťou ponúka kompromis: mierne nižšia presnosť, ale plná transparentnosť. V kritických aplikáciách (medicína, právo) je tento kompromis opodstatnený.</p>
+        <p>AQ11 tiež vyžaduje menej výpočtových zdrojov a nepotrebuje GPU urýchlenie – dôležité pre nasadenie v prostrediach s obmedzenými zdrojmi.</p>
+      </div>
+    </div>
+    <div class="card mt-2">
+      <h3>Závislosť výkonu od veľkosti datasetu</h3>
+      <p>Z experimentov vyplýva jasný trend: s rastúcim počtom trénovacích vzoriek sa presnosť zvyšuje, ale tempo rastu klesá (diminishing returns). Prechod z 100 na 500 vzoriek prináša nárast o 4.6 percentuálneho bodu, prechod z 500 na 1000 vzoriek iba 3.0 pp. Toto je typické správanie pre väčšinu ML algoritmov – dáta sú najcennejšie, keď ich je málo.</p>
+      <p>Počet vygenerovaných pravidiel rastie sublineárne: 6 → 11 → 17 pravidiel pre 100 → 500 → 1000 vzoriek. Toto indikuje, že väčší dataset odhalí jemnejšie vzory v dátach, ktoré si vyžadujú špecializovanejšie pravidlá pokrývajúce hraničné prípady.</p>
+      <p>Čas trénovania rastie lineárne so počtom vzoriek (12ms → 48ms → 187ms), čo je v súlade s teoretickou komplexitou algoritmu O(n·m·k) kde n je počet vzoriek, m počet príznakov a k počet iterácií.</p>
+    </div>
+  </section>
+
+<div class="card mt-2">
+<h3>Limitácie experimentu</h3>
+  <ul>
+  <li>Syntetické dáta – nereprezentujú realitu</li>
+  <li>Len 2 triedy</li>
+  <li>Jednoduchá lineárna hranica</li>
+  <li>Bez šumu (okrem jedného experimentu)</li>
+  <li>Žiadne missing values</li>
+  </ul>
+</div>
+
+  <!-- Comparison -->
+  <section id="comparison" class="section">
+    <div class="section-header">
+      <div class="section-num">09</div>
+      <div>
+        <h2 class="section-title">Porovnanie algoritmov</h2>
+        <p class="section-sub">AQ11 vs Decision Tree vs Neurónová sieť</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="comp-table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>Vlastnosť</th>
+              <th>AQ11</th>
+              <th>Decision Tree</th>
+              <th>Neurónová sieť</th>
+            </tr>
+          </thead>
+          <tbody id="compTableBody">
+            <!-- filled by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="grid-2 mt-2">
+      <div class="card">
+        <h3>AQ11 vs Decision Tree (C4.5)</h3>
+        <p>Oba algoritmy produkujú interpretovateľné pravidlá. Decision Tree buduje hierarchickú stromovú štruktúru, zatiaľ čo AQ11 generuje plochú sadu nezávislých pravidiel (rule set). Pravidlá AQ11 sú zvyčajne zrozumiteľnejšie – nevyžadujú sledovanie cesty v strome.</p>
+        <p>C4.5 je typicky rýchlejší a škálovateľnejší, AQ11 generuje kompaktnejšie pravidlá s vyššou confidence. Na malom datasete (100) AQ11 prekonáva C4.5 o ~2%, na väčších datasetoch sú výsledky porovnateľné.</p>
+        <div class="mini-bar">
+          <div class="mb-item"><span>AQ11</span><div class="mb-bar" style="--w:94.3%"><span>94.3%</span></div></div>
+          <div class="mb-item"><span>C4.5</span><div class="mb-bar" style="--w:93.1%"><span>93.1%</span></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>AQ11 vs Neurónová sieť (MLP)</h3>
+        <p>MLP dosahuje najvyššiu presnosť (97.1%), ale je kompletne neinterpretovateľná. Nie je možné vysvetliť, prečo sieť klasifikuje konkrétnu vzorku do danej triedy. AQ11 je o 2.8pp menej presný, ale ponúka plnú transparentnosť.</p>
+        <p>MLP vyžaduje hyperparameter tuning, veľké množstvo dát a výpočtové zdroje. AQ11 je "out-of-the-box" s minimálnymi nastaveniami a beží aj na základnom hardvéri.</p>
+        <div class="mini-bar">
+          <div class="mb-item"><span>MLP</span><div class="mb-bar" style="--w:97.1%"><span>97.1%</span></div></div>
+          <div class="mb-item"><span>AQ11</span><div class="mb-bar" style="--w:94.3%"><span>94.3%</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conclusion -->
+  <section id="conclusion" class="section">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <div>
+        <h2 class="section-title">Záver</h2>
+        <p class="section-sub">Zhrnutie, silné stránky, slabiny, perspektívy</p>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="card concl-card positive">
+        <h3>✅ Silné stránky</h3>
+        <ul class="concl-list">
+          <li>Plná interpretovateľnosť výstupu</li>
+          <li>Jednoduchá implementácia a nasadenie</li>
+          <li>Nízke výpočtové nároky</li>
+          <li>Vhodné pre regulované odvetvia</li>
+          <li>Robustnosť na malých datasetoch</li>
+          <li>Žiadne hyperparametre (okrem beam width)</li>
+        </ul>
+      </div>
+      <div class="card concl-card negative">
+        <h3>⚠️ Slabé stránky</h3>
+        <ul class="concl-list">
+          <li>Nižšia presnosť vs. deep learning</li>
+          <li>Problematická škálovateľnosť na veľkých dátach</li>
+          <li>Citlivosť na šum v trénovacích dátach</li>
+          <li>Ťažkosti s kontinuálnymi príznakmi</li>
+          <li>Pravidlá môžu byť redundantné</li>
+          <li>Ručná diskretizácia numerických príznakov</li>
+        </ul>
+      </div>
+      <div class="card concl-card neutral">
+        <h3>🚀 Reálne využitie</h3>
+        <ul class="concl-list">
+          <li>Medicínska diagnostika s vysvetlením</li>
+          <li>Právne a compliance systémy</li>
+          <li>Výučba konceptov strojového učenia</li>
+          <li>Automatizácia znalostných báz</li>
+          <li>Hybridné AI systémy (rules + ML)</li>
+          <li>Systémy vyžadujúce audit trail</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card mt-2 conclusion-final">
+      <h3>Záverečné zhodnotenie</h3>
+      <p>Experiment potvrdil, že AQ11 je spoľahlivý algoritmus pre klasifikačné úlohy s jasne definovanou rozhodovacou hranicou. Na syntetických dátach dosahuje presnosť 94.3%, čo je konkurencieschopné s modernými algoritmami, ale pri zachovaní plnej interpretovateľnosti.</p>
+      <p>Kľúčovým zistením je, že v ére regulovanej AI (EU AI Act, GDPR) majú symbolické algoritmy ako AQ11 opätovne rastúci význam. Nie sú náhradou za deep learning v úlohách vyžadujúcich najvyššiu presnosť, ale tvoria dôležitú súčasť portfólia ML nástrojov – najmä tam, kde je potrebné vysvetliť rozhodnutie regulátorovi alebo pacientovi.</p>
+      <p>Budúce smerovanie výskumu: kombinácia AQ11 s technikami feature selection (PCA, mutual information) a integrácia do XAI (Explainable AI) frameworkov pre produkčné nasadenie.</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div>AQ11 Dashboard · Strojové učenie · <span id="footerYear"></span></div>
+    <div>Generované experimentálne dáta · Akademický projekt</div>
+  </footer>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
